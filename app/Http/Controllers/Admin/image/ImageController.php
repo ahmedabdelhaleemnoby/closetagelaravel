@@ -12,7 +12,7 @@ class ImageController extends Controller
     {
         if ($request->isMethod('post')) {
 
-            $image = new Image;
+            $image = new Slider;
             $image->image;
             $image->title;
             $image->description;
