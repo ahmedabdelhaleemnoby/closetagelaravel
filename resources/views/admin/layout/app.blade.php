@@ -23,7 +23,7 @@
         <aside class="sidebar">
             <div class="sidebar-start">
                 <div class="sidebar-head">
-                    <a href="/" class="logo-wrapper" title="Home">
+                    <a href="{{url('/admin')}}" class="logo-wrapper" title="Home">
                         <span class="sr-only">Home</span>
                         <span class="icon logo" aria-hidden="true"></span>
                         <div class="logo-text">
@@ -40,7 +40,7 @@
                 <div class="sidebar-body">
                     <ul class="sidebar-body-menu">
                         <li>
-                            <a class="active" href="/"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                            <a class="active" href="{{url('/admin')}}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
@@ -76,23 +76,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a class="show-cat-btn" href="##">
-                                <span class="icon document" aria-hidden="true"></span>Posts
-                                <span class="category__btn transparent-btn" title="Open list">
-                                    <span class="sr-only">Open list</span>
-                                    <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="posts.html">All Posts</a>
-                                </li>
-                                <li>
-                                    <a href="new-post.html">Add new post</a>
-                                </li>
-                            </ul>
-                        </li>
+
                         <li>
                             <a class="show-cat-btn" href="##">
                                 <span class="icon folder" aria-hidden="true"></span>Categories
@@ -103,7 +87,27 @@
                             </a>
                             <ul class="cat-sub-menu">
                                 <li>
-                                    <a href="categories.html">All categories</a>
+                                    <a href="{{url('/admin/categories/create')}}">Add categories</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/categories')}}">View categories</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon document" aria-hidden="true"></span>Products
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/products/create')}}">Add Products</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/products')}}">View Products</a>
                                 </li>
                             </ul>
                         </li>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,8 +50,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/edit/image/{id}', [App\Http\Controllers\Admin\image\ImageController::class, 'edit']);
     Route::post('/edit/image/{id}', [App\Http\Controllers\Admin\image\ImageController::class, 'edit']);
     Route::get('/delete/image/{id}', [App\Http\Controllers\Admin\image\ImageController::class, 'delete']);
-    // Route::get('/register', [App\Http\Controllers\AdminAuth\RegisterController::class, 'showRegistrationForm']);
 
+
+    Route::resource('categories', CategoriesController::class);
+    Route::resource('products', ProductsController::class);
+
+
+    // Route::get('/register', [App\Http\Controllers\AdminAuth\RegisterController::class, 'showRegistrationForm']);
     // Route::post('/register', [App\Http\Controllers\AdminAuth\RegisterController::class, 'register']);
 
 
