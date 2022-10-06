@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutFeatureController;
+use App\Http\Controllers\Admin\AboutsController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\MainFeatureController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Models\MainFeature;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,12 +21,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+// Route::get('/', function () {
+//     return view('index');
+// });
 // Route::get('/register', [App\Http\Controllers\User\RegisterController::class, 'register']);
 // Route::post('/register', [App\Http\Controllers\User\RegisterController::class, 'submit']);
-
+Route::get('/product/{id}', [App\Http\Controllers\Admin\ProductsController::class, 'show']);
+Route::resource('carts', ProductsController::class);
 Auth::routes();
 
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
@@ -56,6 +63,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('products', ProductsController::class);
 
 
+
+    Route::resource('about', AboutsController::class);
+    Route::resource('about/{id}/features', AboutFeatureController::class);
+
+    Route::resource('mainFeature', MainFeatureController::class);
+    Route::resource('features', FeatureController::class);
+
+
+    // Route::resource('about/features', AboutFeatureController::class);
+    // Route::get('about/{id}/features/create', 'AboutFeatureController@store');
+    // Route::post('about/{id}/features.store', 'AboutFeatureController@store');
+    // Route::post('store', 'AboutFeatureController@store')->name("features.store");
     // Route::get('/register', [App\Http\Controllers\AdminAuth\RegisterController::class, 'showRegistrationForm']);
     // Route::post('/register', [App\Http\Controllers\AdminAuth\RegisterController::class, 'register']);
 

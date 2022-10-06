@@ -25,7 +25,7 @@
                 <td>{{$product->category_id}}</td>
                 <td>{{$product->name}}</td>
                 <td>{{$product->price}}</td>
-                <td>{{$product->description}}</td>
+                <td>{{substr($product->description ,0,60)}}...</td>
                 <td>{{$product->discount}}</td>
                 <td>{{$product->quantity}}</td>
                 <td> <a class="btn btn-primary" href="{{url('/admin/products/'.$product->id.'/edit')}}">Edit</a> <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal_{{$product->id}}">Delete</a>

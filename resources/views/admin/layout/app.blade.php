@@ -113,7 +113,7 @@
                         </li>
                         <li>
                             <a class="show-cat-btn" href="##">
-                                <span class="icon image" aria-hidden="true"></span>Media
+                                <span class="icon category" aria-hidden="true"></span>MainFeature
                                 <span class="category__btn transparent-btn" title="Open list">
                                     <span class="sr-only">Open list</span>
                                     <span class="icon arrow-down" aria-hidden="true"></span>
@@ -121,10 +121,44 @@
                             </a>
                             <ul class="cat-sub-menu">
                                 <li>
-                                    <a href="media-01.html">Media-01</a>
+                                    <a href="{{url('/admin/mainFeature/create')}}">Add MainFeature</a>
                                 </li>
                                 <li>
-                                    <a href="media-02.html">Media-02</a>
+                                    <a href="{{url('/admin/mainFeature')}}">View MainFeature</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon edit" aria-hidden="true"></span>Features
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/features/create')}}">Add Features</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/features')}}">View Features</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon image" aria-hidden="true"></span>About
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/about/create')}}">Add About</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/about')}}">View About</a>
                                 </li>
                             </ul>
                         </li>
