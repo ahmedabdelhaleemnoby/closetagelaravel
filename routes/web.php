@@ -2,10 +2,17 @@
 
 use App\Http\Controllers\Admin\AboutFeatureController;
 use App\Http\Controllers\Admin\AboutsController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\CustomerReviewController;
 use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\FirmController;
+use App\Http\Controllers\Admin\MainBlogController;
 use App\Http\Controllers\Admin\MainFeatureController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ReviewsController;
+use App\Http\Controllers\CartsController;
+use App\Models\CustomerReview;
 use App\Models\MainFeature;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +35,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 // Route::get('/register', [App\Http\Controllers\User\RegisterController::class, 'register']);
 // Route::post('/register', [App\Http\Controllers\User\RegisterController::class, 'submit']);
 Route::get('/product/{id}', [App\Http\Controllers\Admin\ProductsController::class, 'show']);
-Route::resource('carts', ProductsController::class);
+Route::get('/products', [App\Http\Controllers\Admin\ProductsController::class, 'indexProducts']);
+Route::resource('carts', CartsController::class);
 Auth::routes();
 
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
@@ -69,6 +77,16 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('mainFeature', MainFeatureController::class);
     Route::resource('features', FeatureController::class);
+
+    Route::resource('firms', FirmController::class);
+
+
+    Route::resource('customerReview', CustomerReviewController::class);
+    Route::resource('reviews', ReviewsController::class);
+
+
+    Route::resource('mainBlog', MainBlogController::class);
+    Route::resource('blogs', BlogController::class);
 
 
     // Route::resource('about/features', AboutFeatureController::class);

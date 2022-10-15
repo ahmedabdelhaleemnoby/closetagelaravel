@@ -23,7 +23,7 @@
         </div>
 
         <div class="row ">
-            <img src="{{$about->dir}}/{{$about->image}}" alt="{{$about->title}}" style="width: 100px; hight: 100px;">
+            <img src="{{$about->dir}}/{{$about->image}}" alt="{{$about->title}}" style="width: 100px; height: 100px;">
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Upload image</label>
                 <input class="form-control" name="image" type="file" id="formFileMultiple" multiple>

@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use session;
 
 class CartsController extends Controller
 {
@@ -13,7 +18,11 @@ class CartsController extends Controller
      */
     public function index()
     {
-        //
+        // dd($request->all());
+        $carts = Cart::all();
+        $products = Product::all();
+        return view('cart/view', compact('carts', 'products'));
+        // return redirect()->back()->with('success', 'success');
     }
 
     /**
@@ -34,7 +43,28 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(base64_encode($request->server('HTTP_USER_AGENT')));
+        // session()->put('user', Auth::user()->id());
+        // dd(session()->pull('test'));
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'session' => ['required'],
+        //         'product' => ['required'],
+        //         'qty' => ['required', 'numeric'],
+        //         'price' => ['required',  'numeric'],
+
+        //     ]
+        // );
+        $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+        session()->put('user', $sessionId);
+        $addCart = new Cart();
+        $addCart->session = $request->input('category');
+        $addCart->product = $request->input('name');
+        $addCart->qty = $request->input('quantity');
+        $addCart->price = $request->input('price');
+        $addCart->save();
+        return redirect()->back()->with('success', 'success');
     }
 
     /**

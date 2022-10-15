@@ -110,7 +110,6 @@ class MainFeatureController extends Controller
      */
     public function destroy($mainFeature)
     {
-
         $deleteMainFeatures = MainFeature::findOrFail($mainFeature);
         $deleteMainFeatures->delete();
         return redirect()->back()->with('success', 'success');

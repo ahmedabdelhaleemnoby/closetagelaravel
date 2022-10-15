@@ -30,7 +30,7 @@
         <div class="tab-content">
             <div id="tab-all" class="tab-pane fade show p-0 active">
                 <div class="row g-4">
-                    @foreach($products as $product)
+                    @foreach($productz as $product)
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="product-item">
                             <div class="position-relative bg-light overflow-hidden">
@@ -48,7 +48,10 @@
                                     <a class="text-body" href="{{url('/product/'.$product->id)}}"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                                 </small>
                                 <small class="w-50 text-center py-2">
-                                    <a class="text-body" href="{{url('/cart/'.$product->id)}}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                    <form action="{{route('carts.store',Array('id'=>$product->id))}}" method="post" class="p-8 " enctype="multipart/form-data">
+                                        @csrf
+                                        <button type="submit" class="text-body btn btn-sm"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</button>
+                                    </form>
                                 </small>
                             </div>
                         </div>
@@ -56,7 +59,7 @@
                     @endforeach
 
                     <div class="col-12 text-center">
-                        <a class="btn btn-primary rounded-pill py-3 px-5" href="">Browse More Products</a>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="{{url('/products/')}}">Browse More Products</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +69,7 @@
                 <div class="row g-4">
                     @php
 
-                    $products = DB::table('products')->where('category_id',$category->id)->get();
+                    $products = DB::table('products')->where('category_id',$category->id)->limit(4)->get();
 
                     @endphp
                     @foreach($products as $product)
@@ -86,7 +89,7 @@
                                     <a class="text-body" href="{{url('/product/'.$product->id)}}"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                                 </small>
                                 <small class="w-50 text-center py-2">
-                                    <a class="text-body" href="{{url('/cart/'.$product->id)}}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                    <a class="text-body" href="{{url('/cart/store/'.$product->id)}}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
                                 </small>
                             </div>
                         </div>
@@ -94,7 +97,7 @@
                     @endforeach
 
                     <div class="col-12 text-center">
-                        <a class="btn btn-primary rounded-pill py-3 px-5" href="">Browse More Products</a>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="{{url('/products/')}}">Browse More Products</a>
                     </div>
                 </div>
             </div>

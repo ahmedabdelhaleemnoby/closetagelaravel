@@ -5,7 +5,7 @@
     <div class="row">
         <h1 class="text-success mt-4 mb-4">edit Main Feature</h1>
     </div>
-    <form action="{{route('about.update',['about' => $mainFeature->id ])}}" method="POST" class="p-8 " enctype="multipart/form-data">
+    <form action="{{route('mainFeature.update',['mainFeature' => $mainFeature->id ])}}" method="POST" class="p-8 " enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">

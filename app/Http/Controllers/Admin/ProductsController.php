@@ -18,7 +18,14 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
+
         return view('admin/products/view', compact('products'));
+    }
+    public function indexProducts()
+    {
+        $categories = Category::all();
+        $products = Product::all();
+        return view('products', compact('products', 'categories'));
     }
 
     /**
@@ -79,10 +86,10 @@ class ProductsController extends Controller
     public function show($product)
     {
         $categories = Category::all();
-        return view('product.show', [
-            'product' => Product::findOrFail($product),
 
-        ], compact('categories'));
+        $product = Product::findOrFail($product);
+        $releteds = Product::where('category_id', $product->category_id)->get();
+        return view('product.show', compact('categories', 'product', 'relateds'));
     }
 
     /**

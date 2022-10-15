@@ -76,7 +76,6 @@
                                 </li>
                             </ul>
                         </li>
-
                         <li>
                             <a class="show-cat-btn" href="##">
                                 <span class="icon folder" aria-hidden="true"></span>Categories
@@ -159,6 +158,91 @@
                                 </li>
                                 <li>
                                     <a href="{{url('/admin/about')}}">View About</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon radio" aria-hidden="true"></span>Firms
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/firms/create')}}">Add Firm</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/firms')}}">View Firms</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon star" aria-hidden="true"></span>Main Review
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/customerReview/create')}}">Add Main Review</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/customerReview')}}">View Main Review</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon star" aria-hidden="true"></span>Reviews
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/reviews/create')}}">Add Review</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/reviews')}}">View Reviews</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon image" aria-hidden="true"></span>Main Blog
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/mainBlog/create')}}">Add Main Blog</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/mainBlog')}}">View Main Blog</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="show-cat-btn" href="##">
+                                <span class="icon image" aria-hidden="true"></span>Blogs
+                                <span class="category__btn transparent-btn" title="Open list">
+                                    <span class="sr-only">Open list</span>
+                                    <span class="icon arrow-down" aria-hidden="true"></span>
+                                </span>
+                            </a>
+                            <ul class="cat-sub-menu">
+                                <li>
+                                    <a href="{{url('/admin/blogs/create')}}">Add Blog</a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/admin/blogs')}}">View Blogs</a>
                                 </li>
                             </ul>
                         </li>

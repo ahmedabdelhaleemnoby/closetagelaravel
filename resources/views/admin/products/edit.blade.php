@@ -29,7 +29,7 @@
                 <option value="{{$category->id}}">{{$category->tittle}}</option>
                 @endforeach
             </select>
-            <img src="{{$product->dir}}/{{$product->image}}" style="width: 100px; hight: 100px;" alt="">
+            <img src="{{$product->dir}}/{{$product->image}}" style="width: 100px; height: 100px;" alt="">
 
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Upload image</label>

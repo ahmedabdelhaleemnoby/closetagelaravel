@@ -25,6 +25,7 @@
     <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
@@ -70,9 +71,9 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
-                            <a href="{{asset('blog.html')}}" class="dropdown-item">Blog Grid</a>
+                            <a href="{{asset('#blog')}}" class="dropdown-item">Blog Grid</a>
                             <a href="{{asset('#feature')}}" class="dropdown-item">Our Features</a>
-                            <a href="{{asset('testimonial.html')}}" class="dropdown-item">Testimonial</a>
+                            <a href="{{asset('#testimonial')}}" class="dropdown-item">Review</a>
                             <a href="{{asset('404.html')}}" class="dropdown-item">404 Page</a>
                         </div>
                     </div>
@@ -82,9 +83,51 @@
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-search text-body"></small>
                     </a>
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                    <div class="dropdown">
+                        <a class="btn btn-sm-square bg-white rounded-circle ms-3 " href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <small class="fa fa-user text-body"></small>
+
+                        </a>
+                        <ul class="rounded dropdown dropdown-menu " aria-labelledby="dropdownMenuLink">
+
+                            @if (Route::has('login'))
+                            <div class="hidden fixed top-0 right-0 sm:block">
+                                @auth
+
+                                <li><a class="dropdown-item" href="{{ url('/home')}}">
+                                        <i data-feather="user" aria-hidden="true"></i>
+                                        <span>{{Auth::user()->name}}</span>
+                                    </a></li>
+                                <!-- <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a> -->
+                                <li><a class="danger dropdown-item" href="{{url('/logout')}}">
+                                        <i data-feather="log-out" aria-hidden="true"></i>
+                                        <span>Log out</span>
+                                    </a></li>
+
+                                @else
+                                <!-- <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a> -->
+                                <li><a class="danger dropdown-item" href="{{ route('login') }}">
+                                        <i data-feather="log-out" aria-hidden="true"></i>
+                                        <span>Log in</span>
+                                    </a></li>
+                                @if (Route::has('register'))
+                                <!-- <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a> -->
+
+                                <li><a class="danger dropdown-item" href="{{ route('register') }}">
+                                        <i data-feather="log-out" aria-hidden="true"></i>
+                                        <span>Register</span>
+                                    </a></li>
+                                @endif
+                                @endauth
+                            </div>
+                            @endif
+
+
+                        </ul>
+                    </div>
+                    <!-- <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-user text-body"></small>
-                    </a>
+                    </a> -->
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-shopping-bag text-body"></small>
                     </a>

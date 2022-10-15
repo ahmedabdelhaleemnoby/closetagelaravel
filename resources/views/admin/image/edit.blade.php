@@ -23,7 +23,7 @@
 
         <!-- <h1 class="text-success mt-4 mb-4 ms-2">Edit</h1> -->
         <form action="" method="post" enctype="multipart/form-data">
-            <img src="{{$image->dir}}/{{$image->image}}" style="width: 100px; hight: 100px;" alt="">
+            <img src="{{$image->dir}}/{{$image->image}}" style="width: 100px; height: 100px;" alt="">
             <input type="file" class="form-control mb-2" name="image" placeholder="image" value="{{$image->dir}}/{{$image->image}}">
             <input type="text" class="form-control mb-2" name="title" placeholder="title" value="{{$image->title}}">
             <input type="text" class="form-control mb-2" name="description" placeholder="description" value="{{$image->description}}">
