@@ -23,6 +23,7 @@
     <!-- Libraries Stylesheet -->
     <link href="{{asset('lib/animate/animate.min.css')}}" rel="stylesheet">
     <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+    <meta name="_token" content="{{csrf_token()}}" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -214,6 +215,7 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('js/main.js')}}"></script>
+    @yield('js')
 </body>
 
 </html>

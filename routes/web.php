@@ -40,6 +40,8 @@ Route::get('/products', [App\Http\Controllers\Admin\ProductsController::class, '
 // Route::post('/carts/{id}', [CartsController::class, 'store']);
 // Route::get('carts/{id}', 'CartsController@store');
 Route::resource('carts', CartsController::class);
+Route::post('/cart/minus', [App\Http\Controllers\CartsController::class, 'minus']);
+Route::post('/cart/plus', [App\Http\Controllers\CartsController::class, 'plus']);
 
 Auth::routes();
 

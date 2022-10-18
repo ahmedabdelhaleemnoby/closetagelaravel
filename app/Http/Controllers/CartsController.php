@@ -19,19 +19,43 @@ class CartsController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-        $carts = Cart::all();
-        $products = Product::all();
-        if (Auth::id()) {
-            $user = auth()->user()->email;
-            $counts = Cart::where('session', $user)->count();
-        } else {
-            $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
-            $counts = Cart::where('session', $sessionId)->count();
+
+
+
+        $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+
+
+        $carts = Cart::where('session', $sessionId)->get();
+        $counts = count($carts);
+
+
+        foreach ($carts as $cart) {
+
+            $product = @Product::find($cart->product);
+            $cart->product = $product;
         }
-        return view('cart/view', compact('carts', 'products', 'counts'));
+
+
+
+        return view('cart/view', compact('counts', 'carts'));
         // return redirect()->back()->with('success', 'success');
     }
 
+    public function minus(Request $request)
+    {
+        $cart = Cart::where([['id', '=', $request->id]])->first();
+        $cart->qty -= 1;
+        $cart->update();
+        return $request->id;
+    }
+    public function plus(Request $request)
+    {
+        $cart = Cart::where([['id', '=', $request->id]])->first();
+        $cart->qty += 1;
+        $cart->update();
+        $myValue = '#form' . $request->id;
+        return $myValue;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -50,32 +74,27 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(base64_encode($request->server('HTTP_USER_AGENT')));
-        // session()->put('user', Auth::user()->id());
-        // dd(session()->pull('test'));
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'session' => ['required'],
-        //         'product' => ['required'],
-        //         'qty' => ['required', 'numeric'],
-        //         'price' => ['required',  'numeric'],
-        //     ]
-        // );
 
-        $product = Product::findOrFail($request->input('product'));
+
         $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
-        session()->put('user', $sessionId);
-        $addCart = new Cart();
-        if (Auth::id()) {
-            $addCart->session =  auth()->user()->email;
+        $cart = Cart::where([['product', '=', $request->product]])->first();
+        $product = Product::findOrFail($request->product);
+        if ($cart == null) {
+            //1- first if product not in cart
+            $addToCart = new Cart();
+            $addToCart->session = $sessionId;
+            $addToCart->product = $request->product;
+            $addToCart->qty = 1;
+            $addToCart->price = $product->price;
+            $addToCart->save();
         } else {
-            $addCart->session = $sessionId;
+            //2- if product  in cart
+            $cart->qty += 1;
+            $cart->update();
         }
-        $addCart->product = $product->name;
-        $addCart->qty = 1;
-        $addCart->price = $product->price;
-        $addCart->save();
+
+
+
         return redirect()->back()->with('success', 'success');
     }
 
