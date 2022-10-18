@@ -16,12 +16,19 @@ class CartsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // dd($request->all());
         $carts = Cart::all();
         $products = Product::all();
-        return view('cart/view', compact('carts', 'products'));
+        if (Auth::id()) {
+            $user = auth()->user()->email;
+            $counts = Cart::where('session', $user)->count();
+        } else {
+            $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+            $counts = Cart::where('session', $sessionId)->count();
+        }
+        return view('cart/view', compact('carts', 'products', 'counts'));
         // return redirect()->back()->with('success', 'success');
     }
 
@@ -43,7 +50,7 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        dd(base64_encode($request->server('HTTP_USER_AGENT')));
+        // dd(base64_encode($request->server('HTTP_USER_AGENT')));
         // session()->put('user', Auth::user()->id());
         // dd(session()->pull('test'));
         // $this->validate(
@@ -53,16 +60,21 @@ class CartsController extends Controller
         //         'product' => ['required'],
         //         'qty' => ['required', 'numeric'],
         //         'price' => ['required',  'numeric'],
-
         //     ]
         // );
+
+        $product = Product::findOrFail($request->input('product'));
         $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
         session()->put('user', $sessionId);
         $addCart = new Cart();
-        $addCart->session = $request->input('category');
-        $addCart->product = $request->input('name');
-        $addCart->qty = $request->input('quantity');
-        $addCart->price = $request->input('price');
+        if (Auth::id()) {
+            $addCart->session =  auth()->user()->email;
+        } else {
+            $addCart->session = $sessionId;
+        }
+        $addCart->product = $product->name;
+        $addCart->qty = 1;
+        $addCart->price = $product->price;
         $addCart->save();
         return redirect()->back()->with('success', 'success');
     }
@@ -98,7 +110,6 @@ class CartsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**

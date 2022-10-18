@@ -65,7 +65,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="{{asset('/')}}" class="nav-item nav-link active">Home</a>
+                    <a href="{{asset('#slider')}}" class="nav-item nav-link active">Home</a>
                     <a href="{{asset('#about')}}" class="nav-item nav-link">About Us</a>
                     <a href="{{asset('#product')}}" class="nav-item nav-link">Products</a>
                     <div class="nav-item dropdown">
@@ -88,7 +88,7 @@
                             <small class="fa fa-user text-body"></small>
 
                         </a>
-                        <ul class="rounded dropdown dropdown-menu " aria-labelledby="dropdownMenuLink">
+                        <ul class="rounded dropdown dropdown-menu dropdown-menu-end " aria-labelledby="dropdownMenuLink">
 
                             @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 sm:block">
@@ -128,15 +128,19 @@
                     <!-- <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
                         <small class="fa fa-user text-body"></small>
                     </a> -->
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="">
+                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="{{ url('/carts')}}">
+
                         <small class="fa fa-shopping-bag text-body"></small>
+
+                        [{{$counts}}]
+
+
                     </a>
                 </div>
             </div>
         </nav>
     </div>
     <!-- Navbar End -->
-
 
     @yield('content')
 

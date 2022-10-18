@@ -36,10 +36,15 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 // Route::post('/register', [App\Http\Controllers\User\RegisterController::class, 'submit']);
 Route::get('/product/{id}', [App\Http\Controllers\Admin\ProductsController::class, 'show']);
 Route::get('/products', [App\Http\Controllers\Admin\ProductsController::class, 'indexProducts']);
+// Route::get('/carts', [CartsController::class, 'store']);
+// Route::post('/carts/{id}', [CartsController::class, 'store']);
+// Route::get('carts/{id}', 'CartsController@store');
 Route::resource('carts', CartsController::class);
+
 Auth::routes();
 
 Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
+// Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'index']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
