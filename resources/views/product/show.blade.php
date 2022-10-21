@@ -29,8 +29,13 @@
                             </div>
                             <div class="d-flex border-top">
 
-                                <small class="w-100 text-center py-2">
-                                    <a class="text-body" href="{{url('/cart/'.$product->id)}}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                <small class="w-50 text-center py-2">
+                                    <form action="{{route('carts.store',Array('id'=>$product->id))}}" method="post" class="p-8 " enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="product" value="{{$product->id}}">
+
+                                        <button type="submit" class="text-body btn btn-sm"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</button>
+                                    </form>
                                 </small>
                             </div>
                         </div>

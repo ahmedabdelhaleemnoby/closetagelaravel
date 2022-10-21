@@ -21,7 +21,8 @@
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-3">
                                 <p class="lead fw-normal mb-2">{{@$cart->product->name}}</p>
-                                <p><span class="text-muted">price: </span>${{$total}}
+                                <p><span class="text-muted">price: </span>$
+                                    <span id="price_{{$cart->id}}">{{$total}}</span>
                                     <!-- <span class="text-muted">Total: </span>$... -->
                                 </p>
                             </div>
@@ -38,11 +39,13 @@
                                 </button>
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">${{$total * $cart->qty}}</h5>
+                                <h5 class="mb-0" id="total_{{$cart->id}}">${{$total * $cart->qty}}</h5>
                             </div>
 
 
-                            <form class="col-md-1 col-lg-1 col-xl-1 text-end" action="" method="POST">
+                            <form class="col-md-1 col-lg-1 col-xl-1 text-end" action="{{route('carts.destroy', $cart->id)}}" method="POST">
+                                @csrf
+                                @method('Delete')
                                 <input type="hidden" value="..." name="dpid">
                                 <button type="submit" class="border-0 btn  btn-outline-danger" name="delete"><i class="fas fa-trash fa-lg"></i></button>
                             </form>
@@ -65,7 +68,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <a href="checkout.php" type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</a>
+                        <a href="{{url('/checkouts')}}" type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</a>
                     </div>
                 </div>
 
@@ -78,6 +81,8 @@
 @section('js')
 <script>
     $(".minus").click(function() {
+        var thiz = this;
+        var price = $("#price_" + thiz.id).text()
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -90,13 +95,16 @@
                 id: this.id
             },
             success: function(result) {
-                $(this.id).attr('name').replace();
-                console.log($(this.id).attr('name'));
+                $('#form' + thiz.id).val(result)
+                $("#total_" + thiz.id).html("$" + result * price)
+                $("#count").html(+$("#count").html() - 1)
             },
 
         });
     })
     $(".plus").click(function() {
+        var thiz = this;
+        var price = $("#price_" + thiz.id).text()
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -109,8 +117,9 @@
                 id: this.id
             },
             success: function(result) {
-
-                console.log($(result));
+                $('#form' + thiz.id).val(result)
+                $("#total_" + thiz.id).html("$" + result * price)
+                $("#count").html(+$("#count").html() + 1)
             },
 
         });

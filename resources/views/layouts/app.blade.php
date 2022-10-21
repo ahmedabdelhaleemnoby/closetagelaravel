@@ -66,15 +66,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="{{asset('#slider')}}" class="nav-item nav-link active">Home</a>
-                    <a href="{{asset('#about')}}" class="nav-item nav-link">About Us</a>
-                    <a href="{{asset('#product')}}" class="nav-item nav-link">Products</a>
+                    <a href="{{url('/')}}" class="nav-item nav-link active">Home</a>
+                    <a href="{{url('/#about')}}" class="nav-item nav-link">About Us</a>
+                    <a href="{{url('/products')}}" class="nav-item nav-link">Products</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
-                            <a href="{{asset('#blog')}}" class="dropdown-item">Blog Grid</a>
-                            <a href="{{asset('#feature')}}" class="dropdown-item">Our Features</a>
-                            <a href="{{asset('#testimonial')}}" class="dropdown-item">Review</a>
+                            <a href="{{url('/#blog')}}" class="dropdown-item">Blog Grid</a>
+                            <a href="{{url('/#feature')}}" class="dropdown-item">Our Features</a>
+                            <a href="{{url('/#testimonial')}}" class="dropdown-item">Review</a>
                             <a href="{{asset('404.html')}}" class="dropdown-item">404 Page</a>
                         </div>
                     </div>
@@ -132,8 +132,9 @@
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="{{ url('/carts')}}">
 
                         <small class="fa fa-shopping-bag text-body"></small>
+                        <span id="count">{{session()->get('count')}} </span>
 
-                        [{{$counts}}]
+
 
 
                     </a>

@@ -41,17 +41,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function index(Request $request)
-    {
-        $carts = Cart::all();
-        $products = Product::all();
-        if (Auth::id()) {
-            $user = auth()->user()->email;
-            $counts = Cart::where('session', $user)->count();
-        } else {
-            $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
-            $counts = Cart::where('session', $sessionId)->count();
-        }
-        return view('auth.login', compact('counts'));
-    }
 }

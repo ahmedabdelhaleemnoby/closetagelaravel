@@ -91,7 +91,12 @@
                                     <a class="text-body" href="{{url('/product/'.$product->id)}}"><i class="fa fa-eye text-primary me-2"></i>View detail</a>
                                 </small>
                                 <small class="w-50 text-center py-2">
-                                    <a class="text-body" href="{{route('carts.store',Array('id'=>$product->id))}}"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</a>
+                                    <form action="{{route('carts.store',Array('id'=>$product->id))}}" method="post" class="p-8 " enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="product" value="{{$product->id}}">
+
+                                        <button type="submit" class="text-body btn btn-sm"><i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart</button>
+                                    </form>
                                 </small>
                             </div>
                         </div>

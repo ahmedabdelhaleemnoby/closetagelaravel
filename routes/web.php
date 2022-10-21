@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AboutFeatureController;
 use App\Http\Controllers\Admin\AboutsController;
 use App\Http\Controllers\Admin\BlogController;
@@ -42,6 +43,7 @@ Route::get('/products', [App\Http\Controllers\Admin\ProductsController::class, '
 Route::resource('carts', CartsController::class);
 Route::post('/cart/minus', [App\Http\Controllers\CartsController::class, 'minus']);
 Route::post('/cart/plus', [App\Http\Controllers\CartsController::class, 'plus']);
+Route::resource('checkouts', AddressController::class);
 
 Auth::routes();
 
