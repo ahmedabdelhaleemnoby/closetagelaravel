@@ -14,7 +14,7 @@
                 <div class="card rounded-3 mb-4">
                     <div class="card-body p-4">
 
-                        @php $total = $cart->price - $cart->discount @endphp
+                        @php $total = $cart->price - @$cart->product->discount @endphp
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-md-2 col-lg-2 col-xl-2">
                                 <img src="{{@$cart->product->dir.@$cart->product->image}}" class="img-fluid rounded-3" alt="{{@$cart->product->name}}">

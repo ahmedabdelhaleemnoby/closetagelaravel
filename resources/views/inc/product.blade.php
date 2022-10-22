@@ -72,7 +72,7 @@
                     @php
 
                     $products = DB::table('products')->where('category_id',$category->id)->limit(4)->get();
-
+                    $price=$product->price - $product->discount;
                     @endphp
                     @foreach($products as $product)
                     <div class="col-xl-3 col-lg-4 col-md-6">
@@ -83,7 +83,7 @@
                             </div>
                             <div class="text-center p-4">
                                 <a class="d-block h5 mb-2" href="">{{$product->name}}</a>
-                                <span class="text-primary me-1">${{$product->price - $product->discount}}</span>
+                                <span class="text-primary me-1">${{$price}}</span>
                                 <span class="text-body text-decoration-line-through">${{$product->price}}</span>
                             </div>
                             <div class="d-flex border-top">

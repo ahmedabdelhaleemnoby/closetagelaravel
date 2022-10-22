@@ -33,6 +33,13 @@
     background-size: contain;
 }
 
+.credit_card {
+    display: none;
+}
+
+.credit_card.active {
+    display: block;
+}
 
 /*** Spinner ***/
 #spinner {

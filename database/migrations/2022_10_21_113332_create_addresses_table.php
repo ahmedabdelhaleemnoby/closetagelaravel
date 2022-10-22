@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('username');
             $table->string('email');
             $table->string('address');
             $table->string('address2');

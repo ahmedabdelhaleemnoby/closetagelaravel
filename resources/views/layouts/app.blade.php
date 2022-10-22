@@ -216,6 +216,7 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
     @yield('js')
 </body>
 

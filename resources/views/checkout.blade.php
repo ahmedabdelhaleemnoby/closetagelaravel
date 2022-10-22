@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
 <div class="container py-5 mt-5">
@@ -18,7 +17,7 @@
             <ul class="list-group mb-3">
                 @php $subtotal=0; @endphp
                 @foreach($carts as $cart)
-                @php $price = $cart->price - $cart->discount ;
+                @php $price = $cart->price - @$cart->product->discount ;
                 $total=$price * $cart->qty;
                 @endphp
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -55,7 +54,8 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Shipping address</h4>
-            <form class="needs-validation" novalidate method="POST" action="">
+            <form class="needs-validation" novalidate method="POST" action="{{route('checkouts.store')}}">
+                @csrf
                 <div class="col-12">
                     <label for="country">Select Address</label>
                     <select class="custom-select d-block w-100 " id="select_address" style="height: 38px; " name="select_address" required>
@@ -69,12 +69,13 @@
                     </div> -->
                 </div>
                 <div class="col-md-12">
-                    <label for="firstName">Name address</label>
-                    <input type="text" class="form-control" name="name_address" id="name" placeholder="Home,Work etc..." value="" required>
-                    <!-- <div class="invalid-feedback">
+                    <div class="mb-3">
+                        <label for="firstName">Name address</label>
+                        <input type="text" class="form-control" name="name_address" id="name" placeholder="Home,Work etc..." value="" required>
+                        <!-- <div class="invalid-feedback">
                         Valid first name is required.
                     </div> -->
-
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName">First name</label>
@@ -230,4 +231,16 @@
 
 
 </div>
+@endsection
+@section('js')
+<script>
+    $(".checked").click(function() {
+        $(".credit_card").addClass("active")
+
+    })
+    $(".nochecked").click(function() {
+        $(".credit_card").removeClass("active")
+
+    })
+</script>
 @endsection

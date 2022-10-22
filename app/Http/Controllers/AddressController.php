@@ -49,7 +49,38 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(
+            $request,
+            [
+                'name' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+                'firstname' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+                'lastname' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+                'username' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+                'email' => ['email:rfc,dns'],
+                'category' => ['required'],
+                'address' => ['required'],
+                'address2' => ['required'],
+                'country' => ['required',],
+                'state' => ['required',],
+                'zip' => ['required', 'numeric']
+            ]
+        );
+        if ($request->select('select_address') == 0) {
+            $addAddress = new Address();
+            $addAddress->user_id = $request->Auth::id();
+            $addAddress->name = $request->input('name_address');
+            $addAddress->firstname = $request->input('firstName');
+            $addAddress->lastname = $request->input('lastName');
+            $addAddress->email = $request->input('email');
+            $addAddress->address = $request->input('address');
+            $addAddress->address2 = $request->input('address2');
+            $addAddress->country = $request->input('country');
+            $addAddress->state = $request->input('state');
+            $addAddress->zip = $request->input('zip');
+            $addAddress->save();
+            return redirect()->back()->with('success', 'success');
+        } else {
+        }
     }
 
     /**
