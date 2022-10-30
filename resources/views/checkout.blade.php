@@ -40,7 +40,7 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (USD)</span>
-                    <strong>$ {{$subtotal}}.00 </strong>
+                    <strong id="subtotal">${{$subtotal}}.00 </strong>
                 </li>
             </ul>
             <form class="card p-2">
@@ -52,17 +52,28 @@
                 </div>
             </form>
         </div>
+        @if(session()->has('success'))
+        <div class="alert alert-success">
+            Tittle has been successful added
+        </div>`
+        @endif
+        @if($errors->first())
+        <div class="alert alert-danger">
+            {{$errors->first()}}
+        </div>
+        @endif
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Shipping address</h4>
             <form class="needs-validation" novalidate method="POST" action="{{route('checkouts.store')}}">
                 @csrf
+                <input type="hidden" name="subtotal" value="{{$subtotal}}">
                 <div class="col-12">
                     <label for="country">Select Address</label>
                     <select class="custom-select d-block w-100 " id="select_address" style="height: 38px; " name="select_address" required>
+                        <option value="0">+ Add new address...</option>
                         @foreach($addresses as $address)
                         <option value="{{$address->id}}">{{$address->name}}</option>
                         @endforeach
-                        <option value="0">+ Add new address...</option>
                     </select>
                     <!-- <div class="invalid-feedback">
                         Please select a valid Address.
@@ -146,12 +157,12 @@
                     <h4 class="mb-3">Shipping Way</h4>
                     <div class="d-block my-3" id="select_shipping">
                         <div class="custom-control custom-radio">
-                            <input id="home" name="shippingMethods" type="radio" class="custom-control-input" value="15" checked required>
+                            <input id="home" name="shippingMethods" type="radio" class="custom-control-input sum" value="15" required checked>
                             <label class="custom-control-label" for="home"> delivery to home</label>
                             <small class="text-muted ms-3">(3-5 Work days fees $15)</small>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input id="express" name="shippingMethods" type="radio" class="custom-control-input" value="25" required>
+                            <input id="express" name="shippingMethods" type="radio" class="custom-control-input sum" value="25" required>
                             <label class="custom-control-label" for="express">express shipping</label>
                             <small class="text-muted ms-3">(1-2 Work days fees $25)</small>
                         </div>
@@ -175,16 +186,17 @@
                         <label for="country">Select card</label>
                         <select class="custom-select d-block w-100 " id="card" style="height: 38px; " name="card" required>
                             <option value="0">select card...</option>
-
-                            <option value="cards['id']">cards['name']</option>
+                            @foreach($payments as $payment)
+                            <option value="{{$payment->id}}">{{$payment->name}}</option>
+                            @endforeach
                         </select>
                         <div class="d-block my-3">
                             <div class="custom-control custom-radio">
-                                <input id="credit" name="paymentMethod" value="Credit card" type="radio" class="custom-control-input" checked required>
+                                <input id="credit" name="type_card" value="Credit card" type="radio" class="custom-control-input" checked required>
                                 <label class="custom-control-label" for="credit">Credit card</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input id="debit" name="paymentMethod" value="Debit card" type="radio" class="custom-control-input" required>
+                                <input id="debit" name="type_card" value="Debit card" type="radio" class="custom-control-input" required>
                                 <label class="custom-control-label" for="debit">Debit card</label>
                             </div>
 
@@ -234,6 +246,56 @@
 @endsection
 @section('js')
 <script>
+    $("#select_address").change(function() {
+        var thiz = this;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/checkouts/address",
+            type: "post",
+            data: {
+                id: $(this).val()
+            },
+            success: function(result) {
+                // $('#name' + thiz.id).val(result)
+                $("#name").val(result.address.name)
+                $("#firstName").val(result.address.firstname)
+                $("#lastName").val(result.address.lastname)
+                $("#email").val(result.address.email)
+                $("#address").val(result.address.address)
+                $("#address2").val(result.address.address2)
+                $("#country").val(result.address.country)
+                $("#state").val(result.address.state)
+                $("#zip").val(result.address.zip)
+            }
+        });
+    });
+    $("#card").change(function() {
+        var thiz = this;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "/checkouts/card",
+            type: "post",
+            data: {
+                id: $(this).val()
+            },
+            success: function(result) {
+                console.log(result.card);
+                $("#cc-name").val(result.card.name)
+                $("#cc-number").val(result.card.number)
+                $("#cc-expiration").val(result.card.exp)
+                $("#cc-cvv").val(result.card.ccv)
+
+            }
+        });
+    })
     $(".checked").click(function() {
         $(".credit_card").addClass("active")
 

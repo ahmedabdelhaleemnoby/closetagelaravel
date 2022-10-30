@@ -20,7 +20,7 @@
             <tr>
                 <td>{{$image->id}}</td>
                 <td>{{$image->title}}</td>
-                <td><img src="{{$image->dir}}/{{$image->image}}" alt="{{$image->tittle}}" style="width: 50px; hight: 50px;"></td>
+                <td><img src="{{$image->dir}}/{{$image->image}}" alt="{{$image->tittle}}" style="width: 50px; height: 50px;"></td>
                 <td>{{substr($image->description ,0,60)}}...</td>
                 <td> <a class="btn btn-primary" href="{{url('/admin/edit/image/'.$image->id)}}">Edit</a> <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal_{{$image->id}}">Delete</a>
                     <div class="modal fade" id="modal_{{$image->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -20,8 +20,9 @@ class CartsController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
+        $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
 
-        $cCarts = Cart::all();
+        $cCarts = Cart::where('session', $sessionId)->get();
         $count = 0;
         foreach ($cCarts as $cCert) {
             $myCert = $cCert->qty;
@@ -29,10 +30,9 @@ class CartsController extends Controller
         }
         $value = $count;
 
-        $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
 
 
-        $carts = Cart::where('session', $sessionId)->get();
+        $carts =  $cCarts;
 
 
         foreach ($carts as $cart) {

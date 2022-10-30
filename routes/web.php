@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\MainFeatureController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\CartsController;
+use App\Http\Controllers\CheckoutsController;
+use App\Http\Controllers\SummaryController;
 use App\Models\CustomerReview;
 use App\Models\MainFeature;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +45,14 @@ Route::get('/products', [App\Http\Controllers\Admin\ProductsController::class, '
 Route::resource('carts', CartsController::class);
 Route::post('/cart/minus', [App\Http\Controllers\CartsController::class, 'minus']);
 Route::post('/cart/plus', [App\Http\Controllers\CartsController::class, 'plus']);
-Route::resource('checkouts', AddressController::class);
+
+// Route::resource('checkouts', AddressController::class);
+Route::resource('checkouts', CheckoutsController::class);
+Route::post('/checkouts/address', [App\Http\Controllers\CheckoutsController::class, 'address']);
+Route::post('/checkouts/card', [App\Http\Controllers\CheckoutsController::class, 'card']);
+
+Route::resource('summary', SummaryController::class);
+
 
 Auth::routes();
 

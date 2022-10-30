@@ -9,7 +9,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AddressController extends Controller
+class CheckoutsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,6 @@ class AddressController extends Controller
      */
     public function index(Request $request)
     {
-
         if (Auth::id()) {
             $addresses = Address::all();
             $payments = Payment::where('pay_way', 1)->get();
@@ -33,6 +32,7 @@ class AddressController extends Controller
             return redirect('login');
         }
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,22 +54,22 @@ class AddressController extends Controller
         $this->validate(
             $request,
             [
-                'name' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-                'firstname' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-                'lastname' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
-                'username' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+                'name_address' => ['required', 'max:255'],
+                'firstName' => ['required',  'max:255'],
+                'lastName' => ['required',  'max:255'],
                 'email' => ['email:rfc,dns'],
-                'category' => ['required'],
                 'address' => ['required'],
                 'address2' => ['required'],
                 'country' => ['required',],
                 'state' => ['required',],
-                'zip' => ['required', 'numeric']
+                'zip' => ['required', 'numeric'],
+                'shippingMethods' => ['required', 'numeric'],
+                'subtotal' => ['required', 'numeric'],
             ]
         );
-        if ($request->select('select_address') == 0) {
+        if ($request->input('select_address') == 0) {
             $addAddress = new Address();
-            $addAddress->user_id = $request->Auth::id();
+            $addAddress->user_id = Auth::id();
             $addAddress->name = $request->input('name_address');
             $addAddress->firstname = $request->input('firstName');
             $addAddress->lastname = $request->input('lastName');
@@ -83,19 +83,45 @@ class AddressController extends Controller
             $addPayment = new Payment();
             $addPayment->ship_way = $request->input('shippingMethods');
             $addPayment->pay_way = $request->input('paymentMethods');
-            $addPayment->user_id = $request->Auth::id();
+            $addPayment->user_id = Auth::id();
             $addPayment->subtotal = $request->input('subtotal');
             if ($request->input('paymentMethods') == 1) {
-                $addPayment->type_card = $request->input('type_card');
-                $addPayment->name = $request->input('cc_name');
-                $addPayment->number = $request->input('cc_number');
-                $addPayment->exp = $request->input('cc_expiration');
-                $addPayment->cvv = $request->input('cc_cvv');
+                if ($request->input('card') == 0) {
+
+                    $addPayment->type_card = $request->input('type_card');
+                    $addPayment->name = $request->input('cc_name');
+                    $addPayment->number = $request->input('cc_number');
+                    $addPayment->exp = $request->input('cc_expiration');
+                    $addPayment->ccv = $request->input('cc_cvv');
+                } else {
+                    $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+                    Cart::where('session', $sessionId)->update([
+                        'payment_id' => $request->input('card'),
+                        'on_order' => "1",
+                    ]);
+                }
+            } else {
+                $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+                Cart::where('session', $sessionId)->update([
+                    'payment_id' => $request->input('paymentMethods'),
+                    'on_order' => "1",
+                ]);
             }
             $addPayment->save();
-            return redirect()->back()->with('success', 'success');
+            $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+            Cart::where('session', $sessionId)->update([
+                'payment_id' => $addPayment->id,
+                'address_id' => $addAddress->id,
+                'on_order' => "1",
+            ]);
         } else {
+            $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+            Cart::where('session', $sessionId)->update([
+                'address_id' =>  $request->input('select_address'),
+                'on_order' => "1",
+            ]);
         }
+        return redirect('/summary');
     }
 
     /**
@@ -107,6 +133,16 @@ class AddressController extends Controller
     public function show($id)
     {
         //
+    }
+    public function address(Request $request)
+    {
+        $address = Address::where('id', $request->id)->first;
+        return response()->json(['address' => $address]);
+    }
+    public function card(Request $request)
+    {
+        $card = Payment::where('id', $request->id)->first();
+        return response()->json(['card' => $card]);;
     }
 
     /**
