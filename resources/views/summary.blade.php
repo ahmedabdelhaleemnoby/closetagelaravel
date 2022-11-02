@@ -13,22 +13,23 @@
                         <div class="row">
                             <div class="col mb-3">
                                 <p class="small text-muted mb-1">Date</p>
-                                <p>{{$payments->updated_at}}</p>
+                                <p>{{$orders->updated_at}}</p>
                             </div>
                             <div class="col mb-3">
                                 <p class="small text-muted mb-1">Order No.</p>
-                                <p>{{$carts->address_id}}_{{substr($carts->session ,0,5)}}_{{$carts->payment_id}}</p>
+                                <p>{{$orders->address_id}}_{{$orders->payment_id}}</p>
                             </div>
                         </div>
 
                         <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
-                            @foreach($proCarts as $cart)
+                            @foreach($orderDetails as $orderDetail)
                             <div class="row">
                                 <div class="col-md-8 col-lg-9">
-                                    <p>{{@$cart->product->name}}</p>
+                                    <p>{{@$orderDetail->product->name}}</p>
                                 </div>
                                 <div class="col-md-4 col-lg-3">
-                                    <p>${{@$cart->product->price}}</p>
+                                    <span>${{$orderDetail->price - @$orderDetail->product->discount}}</span>
+                                    <span class="text-body text-decoration-line-through">${{$orderDetail->price}}</span>
                                 </div>
                             </div>
                             @endforeach
@@ -37,14 +38,14 @@
                                     <p class="mb-0">Shipping</p>
                                 </div>
                                 <div class="col-md-4 col-lg-3">
-                                    <p class="mb-0">${{$payments->ship_way}}</p>
+                                    <p class="mb-0">${{$orders->ship_fees}}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row my-4">
                             <div class="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
-                                <p class="lead fw-bold mb-0" style="color: #f37a27;">${{$payments->ship_way+$payments->subtotal}}</p>
+                                <p class="lead fw-bold mb-0" style="color: #f37a27;">${{$orders->ship_fees+$orders->subtotal}}</p>
                             </div>
                         </div>
 

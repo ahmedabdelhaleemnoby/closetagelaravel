@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,15 +18,13 @@ class SummaryController extends Controller
      */
     public function index(Request $request)
     {
-        $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
-        $carts = Cart::where('session', $sessionId)->first();
-        $proCarts = Cart::where('session', $sessionId)->get();
-        foreach ($proCarts as $cart) {
-            $product = @Product::find($cart->product);
-            $cart->product = $product;
+        $orders = Order::all()->first();
+        $orderDetails = OrderDetails::all();
+        foreach ($orderDetails as $orderDetail) {
+            $product = @Product::find($orderDetail->product);
+            $orderDetail->product = $product;
         }
-        $payments = Payment::all()->last();
-        return view('summary', compact('payments', 'carts', 'proCarts'));
+        return view('summary', compact('orders', 'orderDetails'));
     }
 
     /**

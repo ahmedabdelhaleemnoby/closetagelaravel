@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -80,6 +82,7 @@ class CheckoutsController extends Controller
             $addAddress->state = $request->input('state');
             $addAddress->zip = $request->input('zip');
             $addAddress->save();
+
             $addPayment = new Payment();
             $addPayment->ship_way = $request->input('shippingMethods');
             $addPayment->pay_way = $request->input('paymentMethods');
@@ -108,6 +111,30 @@ class CheckoutsController extends Controller
                 ]);
             }
             $addPayment->save();
+
+            $addOrder = new Order();
+            $addOrder->subtotal = $request->input('subtotal');
+            $addOrder->ship_fees = $request->input('shippingMethods');
+            $addOrder->address_id = $request->input('select_address');
+            $addOrder->payment_id = $addPayment->id;
+            $addOrder->user_id = Auth::id();
+            $addOrder->status = "ordered";
+            $addOrder->save();
+            $products =  Cart::where('session', $sessionId)->get();
+            foreach ($products as $product) {
+                $addOrderDetails = new OrderDetails();
+                $addOrderDetails->order_id =  $addOrder->id;
+                $addOrderDetails->product = $product->product;
+                $addOrderDetails->qty = $product->qty;
+                $addOrderDetails->price = $product->price;
+                $addOrderDetails->save();
+                $product->delete();
+            }
+
+
+            // $addOrderDetails->product =  Cart::where('session', $sessionId)->find('product')->get();
+
+
             $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
             Cart::where('session', $sessionId)->update([
                 'payment_id' => $addPayment->id,
@@ -120,7 +147,56 @@ class CheckoutsController extends Controller
                 'address_id' =>  $request->input('select_address'),
                 'on_order' => "1",
             ]);
+
+            $addPayment = new Payment();
+            $addPayment->ship_way = $request->input('shippingMethods');
+            $addPayment->pay_way = $request->input('paymentMethods');
+            $addPayment->user_id = Auth::id();
+            $addPayment->subtotal = $request->input('subtotal');
+            if ($request->input('paymentMethods') == 1) {
+                if ($request->input('card') == 0) {
+
+                    $addPayment->type_card = $request->input('type_card');
+                    $addPayment->name = $request->input('cc_name');
+                    $addPayment->number = $request->input('cc_number');
+                    $addPayment->exp = $request->input('cc_expiration');
+                    $addPayment->ccv = $request->input('cc_cvv');
+                } else {
+                    $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+                    Cart::where('session', $sessionId)->update([
+                        'payment_id' => $request->input('card'),
+                        'on_order' => "1",
+                    ]);
+                }
+            } else {
+                $sessionId = base64_encode($request->server('HTTP_USER_AGENT'));
+                Cart::where('session', $sessionId)->update([
+                    'payment_id' => $request->input('paymentMethods'),
+                    'on_order' => "1",
+                ]);
+            }
+            $addPayment->save();
+
+            $addOrder = new Order();
+            $addOrder->subtotal = $request->input('subtotal');
+            $addOrder->ship_fees = $request->input('shippingMethods');
+            $addOrder->address_id = $request->input('select_address');
+            $addOrder->payment_id = $addPayment->id;
+            $addOrder->user_id = Auth::id();
+            $addOrder->status = "ordered";
+            $addOrder->save();
+            $products =  Cart::where('session', $sessionId)->get();
+            foreach ($products as $product) {
+                $addOrderDetails = new OrderDetails();
+                $addOrderDetails->order_id =  $addOrder->id;
+                $addOrderDetails->product = $product->product;
+                $addOrderDetails->qty = $product->qty;
+                $addOrderDetails->price = $product->price;
+                $addOrderDetails->save();
+                $product->delete();
+            }
         }
+
         return redirect('/summary');
     }
 
@@ -136,13 +212,13 @@ class CheckoutsController extends Controller
     }
     public function address(Request $request)
     {
-        $address = Address::where('id', $request->id)->first;
+        $address = Address::where('id', $request->id)->first();
         return response()->json(['address' => $address]);
     }
     public function card(Request $request)
     {
         $card = Payment::where('id', $request->id)->first();
-        return response()->json(['card' => $card]);;
+        return response()->json(['card' => $card]);
     }
 
     /**
